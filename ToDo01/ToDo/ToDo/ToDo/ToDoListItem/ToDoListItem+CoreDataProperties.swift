@@ -11,13 +11,14 @@ import CoreData
 
 
 extension ToDoListItem {
-
+//fetch request as well as managed qualities
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ToDoListItem> {
         return NSFetchRequest<ToDoListItem>(entityName: "ToDoListItem")
     }
 
     @NSManaged public var name: String?
     @NSManaged public var createAt: Date?
+    @NSManaged public var completed: Bool  
 
 }
 

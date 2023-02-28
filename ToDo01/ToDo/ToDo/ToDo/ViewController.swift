@@ -50,7 +50,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let model = models[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = model.name
+        if model.completed {
+            //NSMutable = it can be changed
+            let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: model.name ?? "")
+            //model.name is an optionamt ?? is giving it default value
+            attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 1, range: NSMakeRange(0, attributeString.length))
+            //setting attributed text
+            cell.textLabel?.attributedText = attributeString
+            //if the task is compleated strike through
+        } else{
+            cell.textLabel?.attributedText = nil
+            //removes all attributes
+            cell.textLabel?.text = model.name
+        }
+        
         return cell
     }
     
@@ -60,9 +73,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
         
-        let sheet = UIAlertController(title: "Edit Item", message: "nil", preferredStyle: .actionSheet)
+        let sheet = UIAlertController(title: "Edit Item", message: "Edit An Item To Be Saved", preferredStyle: .actionSheet)
         
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        let completeTitle = item.completed ? "Incomplete" : "Complete"
+        
+        sheet.addAction(UIAlertAction(title: completeTitle, style: .default, handler: { _ in
+            self.updateItem(item: item, isCompleted: !item.completed) //(!) if false set true if true set to false
+            self.tableView.reloadData()
+        }))
         sheet.addAction(UIAlertAction(title: "Edit To Do List", style: .default, handler: { _ in
             
             let alert = UIAlertController(title: "New Item", message: "Edit Your Item", preferredStyle: .alert)
@@ -102,17 +121,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         catch {
             //error
         }
-        
+        models.sort {
+            !$0.completed && $1.completed //$0 sorting a list of array. 0 current indext 1 next index.
+        }
     }
     
     func createItem(name: String) {
         let newItem = ToDoListItem(context: context)
         newItem.name = name
         newItem.createAt = Date()
+        newItem.completed = false
         
         do {
             try context.save()
-            getAllItems()  //refresh our models and reload my tableview
+            getAllItems()  //refresh the models and reload my tableview
         }
         catch {
             
@@ -132,6 +154,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func updateItem(item: ToDoListItem, newName: String) {
         item.name = newName
+        do {
+            try context.save()
+            getAllItems() //the refreshed items
+        }
+        catch {
+            
+        }
+    }
+    func updateItem(item: ToDoListItem, isCompleted: Bool) {
+        item.completed = isCompleted
         do {
             try context.save()
             getAllItems() //the refreshed items

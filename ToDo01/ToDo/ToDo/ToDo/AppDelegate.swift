@@ -3,7 +3,7 @@
 //  ToDo
 //
 //  Created by Precious Omoroga on 2023/02/27.
-//
+
 
 import UIKit
 import CoreData
@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: - Core Data stack
-
+//all data gets persisted here
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
