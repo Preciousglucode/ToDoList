@@ -12,4 +12,5 @@ import CoreData
 @objc(ToDoListItem)
 public class ToDoListItem: NSManagedObject {
 // To put some custom functionality
+    var isChecked :Bool = false
 }
