@@ -10,9 +10,9 @@ import UIKit
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-
+    
     @IBOutlet weak var AddButton: UIButton!
-   @IBOutlet weak var buttonAdd: UIBarButtonItem!
+    @IBOutlet weak var buttonAdd: UIBarButtonItem!
     
     lazy var tableView : UITableView = {
         let table = UITableView()
@@ -20,26 +20,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return table
     }()
     
-  
+    
     
     
     //Pick a Due Date
-//    let datePicker: UIDatePicker = {
-//        let datePicker = UIDatePicker()
-//        datePicker.locale = .current
-//        datePicker.datePickerMode = .dateAndTime
-//        datePicker.preferredDatePickerStyle = .compact
-//        datePicker.tintColor = .systemGray
-//
-//        return datePicker
-//
-//    }() //argument
+    let datePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.locale = .current
+        datePicker.datePickerMode = .dateAndTime
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.tintColor = .systemGray
+        
+        return datePicker
+        
+    }() //argument
     
     private var models = [ToDoListItem]() //array
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "MY TO DO"
+        
         view.addSubview(tableView) // create the cell as a sub view to put a view
         getAllItems()
         tableView.delegate = self  //assing it a delegate and data sorce
@@ -49,7 +50,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
     }
     
+    
     func showAlert(item: ToDoListItem){
+        let alert = UIAlertController(title: "", message: "", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Submit", style: .cancel, handler: {
+            action in
+            self.setDueDate(item: item, dueDate: self.datePicker.date)
+        }))
         
     }
     @objc private func didTapAdd() {
@@ -62,12 +70,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             
             view
-           
+            
             let newItem = self.createItem(name: text)
             
             self.showAlert(item: newItem)  // heres the error
             
-//            self?.createItem(name: text)
+            //            self?.createItem(name: text)
             
         }))
         
@@ -82,10 +90,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let model = models[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-//        var dateString = "No Date"
-//        if let dueDate = model.dueDate {
-//            dateString = DateFormatter.dayMonthYearTimeFormatter.string(from: dueDate)
-//        }
+        //        var dateString = "No Date"
+        //        if let dueDate = model.dueDate {
+        //            dateString = DateFormatter.dayMonthYearTimeFormatter.string(from: dueDate)
+        //        }
         
         if model.completed {
             //NSMutable = it can be changed
@@ -214,18 +222,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-
     
-//    func setDueDate(item: ToDoListItem, dueDate: Date) {
-//        item.dueDate = dueDate
-//        do {
-//            try context.save()
-//            getAllItems() //the refreshed items
-//        }
-//        catch {
-//
-//        }
-//    }
+    
+    //    func setDueDate(item: ToDoListItem, dueDate: Date) {
+    //        item.dueDate = dueDate
+    //        do {
+    //            try context.save()
+    //            getAllItems() //the refreshed items
+    //        }
+    //        catch {
+    //
+    //        }
+    //    }
     
 }
 
