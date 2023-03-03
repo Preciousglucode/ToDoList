@@ -18,11 +18,13 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="eTS-Ih-rQe"/>
+                    <navigationItem key="navigationItem" id="eTS-Ih-rQe">
+                        <nil key="title"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="886.25954198473278" y="3.5211267605633805"/>
+            <point key="canvasLocation" x="825" y="12"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2fd-px-NSt">
@@ -40,7 +42,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8J0-AR-Ie2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-40.458015267175568" y="3.5211267605633805"/>
+            <point key="canvasLocation" x="-47" y="12"/>
         </scene>
     </scenes>
     <resources>

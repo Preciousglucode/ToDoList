@@ -10,17 +10,36 @@ import UIKit
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+
+    @IBOutlet weak var AddButton: UIButton!
+   @IBOutlet weak var buttonAdd: UIBarButtonItem!
+    
     lazy var tableView : UITableView = {
         let table = UITableView()
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell") //creating a tableview and registering a cell
         return table
     }()
     
+  
+    
+    
+    //Pick a Due Date
+//    let datePicker: UIDatePicker = {
+//        let datePicker = UIDatePicker()
+//        datePicker.locale = .current
+//        datePicker.datePickerMode = .dateAndTime
+//        datePicker.preferredDatePickerStyle = .compact
+//        datePicker.tintColor = .systemGray
+//
+//        return datePicker
+//
+//    }() //argument
+    
     private var models = [ToDoListItem]() //array
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "TO DO LIST"
+        title = "MY TO DO"
         view.addSubview(tableView) // create the cell as a sub view to put a view
         getAllItems()
         tableView.delegate = self  //assing it a delegate and data sorce
@@ -29,14 +48,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
     }
+    
+    func showAlert(item: ToDoListItem){
+        
+    }
     @objc private func didTapAdd() {
         let alert = UIAlertController(title: "New Item", message: "Enter A New Item", preferredStyle: .alert)
         alert.addTextField(configurationHandler: nil)
-        alert.addAction(UIAlertAction(title: "Submit", style: .cancel, handler: { [weak self] _ in //for retain cycles
+        alert.addAction(UIAlertAction(title: "Submit", style: .cancel, handler: { _ in //for retain cycles
             guard let field = alert.textFields?.first, let text = field.text, !text.isEmpty else {
                 return
             }
-            self?.createItem(name: text)
+            
+            
+            view
+           
+            let newItem = self.createItem(name: text)
+            
+            self.showAlert(item: newItem)  // heres the error
+            
+//            self?.createItem(name: text)
             
         }))
         
@@ -50,6 +81,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let model = models[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        
+//        var dateString = "No Date"
+//        if let dueDate = model.dueDate {
+//            dateString = DateFormatter.dayMonthYearTimeFormatter.string(from: dueDate)
+//        }
+        
         if model.completed {
             //NSMutable = it can be changed
             let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: model.name ?? "")
@@ -61,8 +98,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else{
             cell.textLabel?.attributedText = nil
             //removes all attributes
-            cell.textLabel?.text = model.name
         }
+        //cell.textLabel?.text = "\(model.name!) \t \t\t \(dateString)"
+        cell.textLabel?.text = model.name!
         
         return cell
     }
@@ -162,6 +200,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         }
     }
+    
     func updateItem(item: ToDoListItem, isCompleted: Bool) {
         item.completed = isCompleted
         do {
@@ -171,9 +210,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         catch {
             
         }
+        
     }
     
+    
+
+    
+//    func setDueDate(item: ToDoListItem, dueDate: Date) {
+//        item.dueDate = dueDate
+//        do {
+//            try context.save()
+//            getAllItems() //the refreshed items
+//        }
+//        catch {
+//
+//        }
+//    }
+    
 }
+
+//extension DateFormatter {
+//    static let dayMonthYearTimeFormatter = {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "dd MMMM YYYY, HH:mm"
+//        return dateFormatter
+//    }()
+//}
 
 
 
