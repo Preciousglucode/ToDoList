@@ -52,27 +52,33 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func showAlert(item: ToDoListItem){
         
     }
-    @objc private func didTapAdd() {
-        let alert = UIAlertController(title: "New Item", message: "Enter A New Item", preferredStyle: .alert)
-        alert.addTextField(configurationHandler: nil)
-        alert.addAction(UIAlertAction(title: "Submit", style: .cancel, handler: { _ in //for retain cycles
-            guard let field = alert.textFields?.first, let text = field.text, !text.isEmpty else {
-                return
-            }
+    @objc private func didTapAdd()
+    {
+        let viewcontroller = ToDoViewController ()
+        show(viewcontroller, sender: self)
+        
+        
+            
+        //let alert = UIAlertController(title: "New Item", message: "Enter A New Item", preferredStyle: .alert)
+        //alert.addTextField(configurationHandler: nil)
+        //alert.addAction(UIAlertAction(title: "Submit", style: .cancel, handler: { _ in //for retain cycles
+            //guard let field = alert.textFields?.first, let text = field.text, !text.isEmpty else {
+            //    return
+            //}
             
             
-            view
+            //view
            
-            let newItem = self.createItem(name: text)
+            //let newItem = self.createItem(name: text)
             
-            self.showAlert(item: newItem)  // heres the error
+           // self.showAlert(item: newItem)  // heres the error
             
 //            self?.createItem(name: text)
             
-        }))
+        //}))
         
-        present(alert, animated: true)
-    }
+     //   present(alert, animated: true)
+   }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return models.count
