@@ -18,12 +18,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         datePicker.locale = .current
         datePicker.datePickerMode = .dateAndTime
         datePicker.preferredDatePickerStyle = .compact
-        datePicker.tintColor = .systemBlue
+        datePicker.tintColor = .systemPurple
         return datePicker
     }()
     private var models = [ToDoListItem]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.backgroundColor = .purple
+        
         // Do any additional setup after loading the view.
         title = "To Do List"
         view.addSubview(tableView)
@@ -44,17 +46,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     @objc private func didTapAdd() {
         
-        show(ToDoViewController(), sender: self)
+        //show(ToDoViewController(), sender: self)
         
-//        let alert = UIAlertController(title: "New Item", message: "Enter new To Do", preferredStyle: .alert)
-//        alert.addTextField(configurationHandler: nil)
-//        alert.addAction(UIAlertAction(title: "Select Due Date", style: .cancel, handler: { _ in guard let field = alert.textFields?.first, let text = field.text, !text.isEmpty else{
-//            return
-//        }
-//            let newItem = self.createItem(name: text)
-//            self.showAlert(item: newItem)
-//        }))
-//        present(alert, animated: true)
+        let alert = UIAlertController(title: "New Item", message: "Enter new To Do", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: nil)
+        alert.addAction(UIAlertAction(title: "Select Due Date", style: .cancel, handler: { _ in guard let field = alert.textFields?.first, let text = field.text, !text.isEmpty else{
+            return
+            
+        }
+          
+                            
+            let newItem = self.createItem(name: text)
+            self.showAlert(item: newItem)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        }))
+        present(alert, animated: true)
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return models.count
@@ -68,7 +74,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             dateString = DateFormatter.dayMonthYearTimeFormatter.string(from: dueDate)
         }
         let labelText = "\(model.name!) \t \t \(dateString)"
-//
+
         if model.completed {
 //            NSMutable = it can be changed
             let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: labelText)
@@ -85,7 +91,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
        
         cell.accessoryType = model.isChecked ? .checkmark : .none
 //        cell.textLabel?.text = "\(model.name!) \t \t \(dateString)"
-        //    cell.detailTextLabel?.text = "\(dateString)"
+        //cell.detailTextLabel?.text = "\(dateString)"
         return cell
     }
     
@@ -100,7 +106,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.updateItem(item: item, isCompleted: !item.completed) //(!) if false set true if true set to false
             self.tableView.reloadData()
         }))
-//        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        //alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         sheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
             let alert = UIAlertController(title: "Edit Item", message: "Edit your new item", preferredStyle: .alert)
             alert.addTextField(configurationHandler: nil)
@@ -115,7 +121,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }))
         sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in self?.deleteItem(item: item)
         }))
-        //    item.isChecked = !item.isChecked
+        //item.isChecked = !item.isChecked
         tableView.reloadData()
         present(sheet , animated: true)
     }
