@@ -54,11 +54,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return
             
         }
-          
-                            
             let newItem = self.createItem(name: text)
             self.showAlert(item: newItem)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         }))
         present(alert, animated: true)
     }
@@ -106,7 +103,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.updateItem(item: item, isCompleted: !item.completed) //(!) if false set true if true set to false
             self.tableView.reloadData()
         }))
-        //alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         sheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: { _ in
             let alert = UIAlertController(title: "Edit Item", message: "Edit your new item", preferredStyle: .alert)
             alert.addTextField(configurationHandler: nil)
