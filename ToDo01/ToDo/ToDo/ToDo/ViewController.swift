@@ -60,14 +60,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 return
             }
             
-            
-            view
+            //self.view
            
-            let newItem = self.createItem(name: text)
+            //let newItem = self.createItem(name: text)
             
-            self.showAlert(item: newItem)  // heres the error
+            //self.showAlert(item: ToDoListItem)// heres the error
             
-//            self?.createItem(name: text)
+           //self?.createItem(name: text)
             
         }))
         
